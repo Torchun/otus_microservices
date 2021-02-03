@@ -4,6 +4,10 @@
   become: true
   tasks:
   - name: start docker
+    retries: 60
+    delay: 10 # in seconds
+    register: result
+    until: result is not failed
     docker_container:
       name: reddit
       image: torchun/otus-reddit:1.0

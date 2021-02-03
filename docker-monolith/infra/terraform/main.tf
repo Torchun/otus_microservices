@@ -27,4 +27,9 @@ resource "yandex_compute_instance" "docker" {
   metadata = {
     ssh-keys = "ubuntu:${file(var.public_key_path)}"
   }
+
+  provisioner "local-exec" {
+    command = "ansible-playbook playbooks/run_reddit.yml"
+     working_dir = "../ansible"
+  }
 }
