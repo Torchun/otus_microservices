@@ -1,0 +1,7 @@
+{
+  "folder_id": "sdfsdf",
+  "source_image_family": "ubuntu-1804-lts",
+  "service_account_key_file": "neskazhu.key",
+  "disk_name": "docker-base",
+  "disk_size_gb": "15"
+}
