@@ -1,0 +1,9 @@
+cloud_id                 = "asd"
+folder_id                = "zxc"
+zone                     = "ru-central1-a"
+image_id                 = "zxc"
+subnet_id                = "sdf"
+public_key_path          = "somekey.pub"
+private_key_path         = "somekey"
+service_account_key_file = "neskazhu.json"
+instance_count           = 2
