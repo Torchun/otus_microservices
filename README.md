@@ -1,6 +1,77 @@
 # Torchun_microservices
 Torchun microservices repository
 
+# Lecture 17, homework 13
+> Common tasks: build default images
+
+As described in PDF
+
+> Star:  re-run containers with new network aliases and pass vars
+
+Stop all containers:
+ - ` docker kill $(docker ps -q)`
+
+Re-run containers with new params (same `reddit` network in use):
+```
+docker run -d \
+    --network=reddit \
+    --network-alias=post_db_1 \
+    --network-alias=comment_db_1 \
+    mongo:latest
+
+docker run -d \
+    --network=reddit \
+    -e POST_SERVICE_HOST=post_1 \
+    -e COMMENT_SERVICE_HOST=comment_1 \
+    -p 9292:9292 \
+    torchun/ui:1.0
+
+docker run -d \
+    --network=reddit \
+    -e COMMENT_DATABASE_HOST=comment_db_1 \
+    -e COMMENT_DATABASE=comments_1 \
+    --network-alias=comment_1 \
+    torchun/comment:1.0
+
+docker run -d \
+    --network=reddit \
+    -e POST_DATABASE_HOST=post_db_1 \
+    -e POST_DATABASE=posts_1 \
+    --network-alias=post_1 \
+    torchun/post:1.0
+```
+> Star: re-build image based on Alpine
+ - `cp ui/Dockerfile ui/Dockerfile.1`
+ - in `ui/Dockerfile.1` make changes:
+```
+# FROM ubuntu:16.04
+# RUN apt-get update \
+#     && apt-get install -y ruby-full ruby-dev build-essential \
+#     && gem install bundler --no-ri --no-rdoc
+
+FROM alpine:3.6
+RUN apk update --no-cache \
+    && apk add --no-cache ruby ruby-dev ruby-bundler build-base \
+    && gem install bundler --no-rdoc --no-ri \
+    && rm -rf /var/cache/apk/*
+```
+ - `docker build -t torchun/ui:3.0 ./ui -f ui/Dockerfile.1`
+ - Compare sizes:
+```
+$ docker images
+REPOSITORY        TAG            IMAGE ID       CREATED          SIZE
+torchun/ui        3.0            456c9d70a8f7   32 seconds ago   205MB
+torchun/ui        2.0            276f389172e5   18 minutes ago   458MB
+torchun/ui        1.0            5c703f9f144d   32 minutes ago   770MB
+...
+
+```
+Don't forget to remove `Exited` containers as they are not needed anymore:
+```
+docker rm `docker ps -a | grep Exited | awk '{print $1}'`
+```
+
+
 # Lecture 16, homework 12
 > Common tasks: play with Docker
 ##### Hint: use official installers for docker*
