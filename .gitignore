@@ -21,3 +21,6 @@ vault.key
 .cache
 .pytest_cache
 *.yamllint
+
+# docker-compose
+.env

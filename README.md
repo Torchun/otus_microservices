@@ -1,6 +1,120 @@
 # Torchun_microservices
 Torchun microservices repository
 
+# Lecture 18, homework 14
+> Common tasks: Playing with docker networks
+
+As described in PDF.
+##### Hint: use following commands:
+```
+docker-machine ls
+eval $(docker-machine env docker-host)
+docker kill $(docker ps -q)
+
+docker network create back_net --subnet=10.0.2.0/24
+docker network create front_net --subnet=10.0.1.0/24
+
+docker run -d --network=front_net -p 9292:9292 --name ui torchun/ui:1.0
+docker run -d --network=back_net --name comment torchun/comment:1.0
+docker run -d --network=back_net --name post torchun/post:1.0
+docker run -d --network=back_net --name mongo_db --network-alias=post_db --network-alias=comment_db mongo:latest
+
+docker network connect front_net post
+docker network connect front_net comment
+```
+Docker compose commands:
+```
+export USERNAME=torchun
+docker-compose up -d
+docker-compose ps
+```
+
+> Common tasks: .env, versions and variables to docker-compose
+
+ - Place in `.env` file desired variables:
+```
+USERNAME=torchun
+PORT=9292
+VERSION=1.0
+```
+ - Refactor "version" from static to var and specify networks for each service:
+```
+version: '3.3'
+services:
+  post_db:
+    image: mongo:3.2
+    volumes:
+      - post_db:/data/db
+    networks:
+      - back_net
+  ui:
+    build: ./ui
+    image: ${USERNAME}/ui:${VERSION}
+    ports:
+      - ${PORT}:${PORT}/tcp
+    networks:
+      - front_net
+  post:
+    build: ./post-py
+    image: ${USERNAME}/post:${VERSION}
+    networks:
+      - front_net
+      - back_net
+  comment:
+    build: ./comment
+    image: ${USERNAME}/comment:${VERSION}
+    networks:
+      - front_net
+      - back_net
+
+volumes:
+  post_db:
+
+networks:
+  front_net:
+  back_net:
+```
+Now rebuild to ckeck:
+ - `docker-compose kill`
+ - `docker-compose up -d`
+ - `docker-compose ps`
+
+> Specifying project name in docker compose
+
+As easy as `docker-compose -p project_name up -d`
+
+> Star: work with docker-compose.override.yml
+##### Modify App's code without restart of container with `docker-compose.override.yml` changes:
+```
+services:
+  post:
+    volumes:
+    - app_volume:/app
+```
+##### Start Puma in debug mode with 2 workers with `docker-compose.override.yml`:
+```
+  ui:
+    command: puma --debug -w 2
+  comment:
+    command: puma --debug -w 2
+```
+Check with firing commands:
+```
+docker-compose kill
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+```
+```
+docker-compose ps
+    Name                  Command             State           Ports
+----------------------------------------------------------------------------
+src_comment_1   puma --debug -w 2             Up
+src_post_1      python3 post_app.py           Up
+src_post_db_1   docker-entrypoint.sh mongod   Up      27017/tcp
+src_ui_1        puma --debug -w 2             Up      0.0.0.0:9292->9292/tcp
+
+```
+
+
 # Lecture 17, homework 13
 > Common tasks: build default images
 
