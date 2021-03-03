@@ -45,7 +45,6 @@ services:
       - backend
 
   node-exporter:
-#    image: prom/node-exporter:v0.15.2
     image: prom/node-exporter:v1.1.1
     user: root
     volumes:
@@ -58,6 +57,13 @@ services:
       - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
     networks:
       - frontend
+      - backend
+
+  mongo-exporter:
+    image: ${USER_NAME}/mongodb_exporter:0.20.2
+    command:
+      - '--mongodb.uri=mongodb://mongo_db:27017'
+    networks:
       - backend
 
 volumes:
