@@ -8,14 +8,14 @@ services:
       - backend
 
   ui:
-    image: ${USERNAME}/ui:${UI_TAG}
+    image: ${USER_NAME}/ui:${UI_TAG}
     ports:
       - ${UI_PORT}:9292/tcp
     networks:
       - frontend
 
   post:
-    image: ${USERNAME}/post:${POST_TAG}
+    image: ${USER_NAME}/post:${POST_TAG}
     environment:
       - POST_DATABASE_HOST=mongo_db
     networks:
@@ -23,7 +23,7 @@ services:
       - backend
 
   comment:
-    image: ${USERNAME}/comment:${COMMENT_TAG}
+    image: ${USER_NAME}/comment:${COMMENT_TAG}
     environment:
       - COMMENT_DATABASE_HOST=mongo_db
     networks:
@@ -31,7 +31,7 @@ services:
       - backend
 
   prometheus:
-    image: ${USERNAME}/prometheus
+    image: ${USER_NAME}/prometheus
     ports:
       - "9090:9090"
     volumes:
@@ -40,6 +40,22 @@ services:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
       - "--storage.tsdb.retention=1d"
+    networks:
+      - frontend
+      - backend
+
+  node-exporter:
+#    image: prom/node-exporter:v0.15.2
+    image: prom/node-exporter:v1.1.1
+    user: root
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
     networks:
       - frontend
       - backend
