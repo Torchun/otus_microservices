@@ -66,6 +66,14 @@ services:
     networks:
       - backend
 
+  blackbox-exporter:
+    image: ${USER_NAME}/blackbox_exporter
+    command:
+      - '--config.file=/etc/blackboxexporter/config.yml'
+    networks:
+      - backend
+      - frontend
+
 volumes:
   post_db:
   prometheus_data:
