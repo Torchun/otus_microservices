@@ -29,6 +29,14 @@ docker push $USER_NAME/mongodb_exporter:0.20.2
 2. Add monitoring to prometheus.yml, rebuild image as config ADDed via Dockerfile and push to registry
 3. Start image, e.g. via docker-compose.yml
 
+Links to DockerHub images:
+ - [https://hub.docker.com/repository/docker/torchun/prometheus](https://hub.docker.com/repository/docker/torchun/prometheus)
+ - [https://hub.docker.com/repository/docker/torchun/post](https://hub.docker.com/repository/docker/torchun/post)
+ - [https://hub.docker.com/repository/docker/torchun/comment](https://hub.docker.com/repository/docker/torchun/comment)
+ - [https://hub.docker.com/repository/docker/torchun/ui](https://hub.docker.com/repository/docker/torchun/ui)
+ - [https://hub.docker.com/repository/docker/torchun/mongodb_exporter](https://hub.docker.com/repository/docker/torchun/mongodb_exporter)
+ - [https://hub.docker.com/repository/docker/torchun/blackbox_exporter](https://hub.docker.com/repository/docker/torchun/blackbox_exporter)
+
 
 # Lecture 18, homework 14
 > Common tasks: Playing with docker networks
