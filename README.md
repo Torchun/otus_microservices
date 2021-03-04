@@ -1,6 +1,43 @@
 # Torchun_microservices
 Torchun microservices repository
 
+# Lecture 22, homework 16
+## Common tasks:
+ - reorganize directores
+ - add Prometheus monitoring for UI, Comment, Post containers
+ - add node_exporter
+##### Solution: as described in PDF
+
+## Starred tasks:
+ - add mongodb_exporter
+ - add [blackbox_exporter](https://github.com/prometheus/blackbox_exporter#prometheus-configuration)
+ - create Makefile to build / push / docker-compose commands
+##### Solution: See corresponding commits and files
+##### Useful comands:
+```
+docker-compose --env-file ./.env -f docker-compose.yml up -d
+docker-compose ps -a
+```
+##### Useful tips:
+
+To monitor smth:
+1. Create image:
+```
+docker build -t $USER_NAME/mongodb_exporter:0.20.2 .
+docker push $USER_NAME/mongodb_exporter:0.20.2
+```
+2. Add monitoring to prometheus.yml, rebuild image as config ADDed via Dockerfile and push to registry
+3. Start image, e.g. via docker-compose.yml
+
+Links to DockerHub images:
+ - [https://hub.docker.com/repository/docker/torchun/prometheus](https://hub.docker.com/repository/docker/torchun/prometheus)
+ - [https://hub.docker.com/repository/docker/torchun/post](https://hub.docker.com/repository/docker/torchun/post)
+ - [https://hub.docker.com/repository/docker/torchun/comment](https://hub.docker.com/repository/docker/torchun/comment)
+ - [https://hub.docker.com/repository/docker/torchun/ui](https://hub.docker.com/repository/docker/torchun/ui)
+ - [https://hub.docker.com/repository/docker/torchun/mongodb_exporter](https://hub.docker.com/repository/docker/torchun/mongodb_exporter)
+ - [https://hub.docker.com/repository/docker/torchun/blackbox_exporter](https://hub.docker.com/repository/docker/torchun/blackbox_exporter)
+
+
 # Lecture 18, homework 14
 > Common tasks: Playing with docker networks
 
