@@ -74,6 +74,22 @@ services:
       - backend
       - frontend
 
+  cadvisor:
+#    image: google/cadvisor:v0.29.0
+    image: gcr.io/cadvisor/cadvisor:v0.37.5
+    volumes:
+      - '/:/rootfs:ro'
+      - '/var/run:/var/run:rw'
+      - '/sys:/sys:ro'
+      - '/var/lib/docker/:/var/lib/docker:ro'
+    ports:
+      - '8080:8080'
+    networks:
+      - backend
+      - frontend
+
+
+
 volumes:
 #  post_db:
   prometheus_data:
