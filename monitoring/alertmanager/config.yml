@@ -1,5 +1,5 @@
 global:
-  slack_api_url: 'https://hooks.slack.com/services/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'
+  slack_api_url: 'https://hooks.slack.com/services/<get_webhook_url_from_slack>'
 
 route:
   receiver: 'slack-notifications'
@@ -7,4 +7,4 @@ route:
 receivers:
 - name: 'slack-notifications'
   slack_configs:
-  - channel: '#pavel_bedyaev'
+  - channel: '#my_channel_name'
