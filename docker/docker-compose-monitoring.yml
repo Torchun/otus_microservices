@@ -103,6 +103,15 @@ services:
       - backend
       - frontend
 
+  alertmanager:
+    image: ${USER_NAME}/alertmanager:latest
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+    ports:
+      - 9093:9093
+    networks:
+      - backend
+
 volumes:
 #  post_db:
   prometheus_data:
