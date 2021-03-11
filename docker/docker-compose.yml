@@ -30,53 +30,53 @@ services:
       - frontend
       - backend
 
-  prometheus:
-    image: ${USER_NAME}/prometheus
-    ports:
-      - "9090:9090"
-    volumes:
-      - prometheus_data:/prometheus
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
-      - "--storage.tsdb.path=/prometheus"
-      - "--storage.tsdb.retention=1d"
-    networks:
-      - frontend
-      - backend
+#  prometheus:
+#    image: ${USER_NAME}/prometheus
+#    ports:
+#      - "9090:9090"
+#    volumes:
+#      - prometheus_data:/prometheus
+#    command:
+#      - "--config.file=/etc/prometheus/prometheus.yml"
+#      - "--storage.tsdb.path=/prometheus"
+#      - "--storage.tsdb.retention=1d"
+#    networks:
+#      - frontend
+#      - backend
 
-  node-exporter:
-    image: prom/node-exporter:v1.1.1
-    user: root
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-    command:
-      - '--path.procfs=/host/proc'
-      - '--path.sysfs=/host/sys'
-      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
-    networks:
-      - frontend
-      - backend
+#  node-exporter:
+#    image: prom/node-exporter:v1.1.1
+#    user: root
+#    volumes:
+#      - /proc:/host/proc:ro
+#      - /sys:/host/sys:ro
+#      - /:/rootfs:ro
+#    command:
+#      - '--path.procfs=/host/proc'
+#      - '--path.sysfs=/host/sys'
+#      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+#    networks:
+#      - frontend
+#      - backend
 
-  mongo-exporter:
-    image: ${USER_NAME}/mongodb_exporter:0.20.2
-    command:
-      - '--mongodb.uri=mongodb://mongo_db:27017'
-    networks:
-      - backend
+#  mongo-exporter:
+#    image: ${USER_NAME}/mongodb_exporter:0.20.2
+#    command:
+#      - '--mongodb.uri=mongodb://mongo_db:27017'
+#    networks:
+#      - backend
 
-  blackbox-exporter:
-    image: ${USER_NAME}/blackbox_exporter
-    command:
-      - '--config.file=/etc/blackboxexporter/config.yml'
-    networks:
-      - backend
-      - frontend
+#  blackbox-exporter:
+#    image: ${USER_NAME}/blackbox_exporter
+#    command:
+#      - '--config.file=/etc/blackboxexporter/config.yml'
+#    networks:
+#      - backend
+#      - frontend
 
 volumes:
   post_db:
-  prometheus_data:
+#  prometheus_data:
 
 networks:
   frontend:

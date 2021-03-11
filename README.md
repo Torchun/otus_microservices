@@ -1,6 +1,57 @@
 # Torchun_microservices
 Torchun microservices repository
 
+# Lecture 23, homework 17
+## Common tasks:
+ - reorganize `docker-compose.yml`, extract monitoring to `docker-compose-monitoring.yml`
+ - cAdvisor
+ - Grafana: sources, dashboards
+ - Alertmanager -> Slack notifications
+##### Solution: as described in PDF
+
+## Starred tasks:
+ - Append Makefile to include build/push/deploy for grafana and alertmanager
+ - Docker Engine stats straightforward to Prometheus (without cAdvicer)
+ - Additional panel in Grafana with 95 percentile
+ - Grafana dynamic inventory using pre-created dashboards (downloaded or self-deigned)
+##### Solution: See corresponding commits and files
+##### Useful commands:
+```
+docker-compose --env-file ./.env -f docker-compose.yml up -d
+docker-compose ps -a
+```
+##### Useful tips:
+```
+export USER_NAME=your_user_name
+docker build -t $USER_NAME/prometheus .
+
+docker-compose -f docker-compose-monitoring.yml down
+docker-compose -f docker-compose-monitoring.yml up -d
+
+docker build -t $USER_NAME/alertmanager .
+```
+
+ - To enable docker native metrics to be exposed, add to /etc/docker/daemon.json:
+```
+{
+  "metrics-addr" : "0.0.0.0:9323",
+  "experimental" : true
+}
+```
+- Restart Docker engine (will stop all containers):
+```
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
+ - [Dynamic provisioning for Grafana:](https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards)
+
+ - ##### After export dashboard to JSON, need manually to fix "datasource": "${DS_PROMETHEUS_SERVER}" / "${DS_PROMETHEUS}" to string "Prometheus" (simple string, not variable)
+```
+docker build -t $USER_NAME/grafana .
+docker push $USER_NAME/grafana
+```
+
 # Lecture 22, homework 16
 ## Common tasks:
  - reorganize directores
