@@ -13,6 +13,11 @@ services:
       - ${UI_PORT}:9292/tcp
     networks:
       - frontend
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: service.ui
 
   post:
     image: ${USER_NAME}/post:${POST_TAG}
@@ -21,6 +26,11 @@ services:
     networks:
       - frontend
       - backend
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: service.post
 
   comment:
     image: ${USER_NAME}/comment:${COMMENT_TAG}
