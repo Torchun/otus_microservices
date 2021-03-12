@@ -28,7 +28,8 @@ docker-compose --env-file ./.env -f docker-compose.yml down
  - Playing with Grok filters:
 
 `service=ui | event=request | path=/post/604aff2f8fa047001555507f | request_id=109434c0-c464-4a5b-a4f2-5d0406fd722a | remote_addr=176.195.44.29 | method= GET | response_status=200`
-
+ - [https://grokdebug.herokuapp.com/](https://grokdebug.herokuapp.com/)
+ - [https://streamsets.com/documentation/datacollector/latest/help/datacollector/UserGuide/Apx-GrokPatterns/GrokPatterns_title.html](https://streamsets.com/documentation/datacollector/latest/help/datacollector/UserGuide/Apx-GrokPatterns/GrokPatterns_title.html)
 ##### Hint: `"method= GET"` <-- with whitespace!
 
 `service=%{WORD:service} \| event=%{WORD:event} \| path=%{UNIXPATH:path} \| request_id=%{GREEDYDATA:request_id} \| remote_addr=%{IP:remote_addr} \| method= %{WORD:method} \| response_status=%{BASE10NUM:response_status}`
