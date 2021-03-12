@@ -2,6 +2,8 @@ version: "3.3"
 services:
   mongo_db:
     image: mongo:3.2
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     volumes:
       - post_db:/data/db
     networks:
@@ -9,6 +11,8 @@ services:
 
   ui:
     image: ${USER_NAME}/ui:${UI_TAG}
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     ports:
       - ${UI_PORT}:9292/tcp
     networks:
@@ -23,6 +27,7 @@ services:
     image: ${USER_NAME}/post:${POST_TAG}
     environment:
       - POST_DATABASE_HOST=mongo_db
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     networks:
       - frontend
       - backend
@@ -36,6 +41,7 @@ services:
     image: ${USER_NAME}/comment:${COMMENT_TAG}
     environment:
       - COMMENT_DATABASE_HOST=mongo_db
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     networks:
       - frontend
       - backend
