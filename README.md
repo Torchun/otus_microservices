@@ -1,6 +1,48 @@
 # Torchun_microservices
 Torchun microservices repository
 
+# Lecture 25, homework 18
+## Common tasks:
+ - Setting up EFK
+ - Dockerfile & config for Fluentd
+ - Logs -> fluentd
+ - Setting up & config for Kibana
+ - Filters for Fluentd
+ - Advanced filtering for unstructured logs with Grok templates for regex
+ - Setting up & config for Zipkin
+ - Traces with Zipkin
+##### Solution: as described in PDF
+
+## Starred tasks:
+ - Custom Grok for unstructured logs
+ - Bugged build for app: solving with Zipkin
+##### Solution: See corresponding commits and files
+##### Useful commands:
+```
+docker-compose --env-file ./.env -f docker-compose.yml up -d
+docker-compose ps -a
+docker-compose --env-file ./.env -f docker-compose.yml down
+```
+
+##### Useful tips:
+ - Playing with Grok filters:
+
+`service=ui | event=request | path=/post/604aff2f8fa047001555507f | request_id=109434c0-c464-4a5b-a4f2-5d0406fd722a | remote_addr=176.195.44.29 | method= GET | response_status=200`
+ - [https://grokdebug.herokuapp.com/](https://grokdebug.herokuapp.com/)
+ - [https://streamsets.com/documentation/datacollector/latest/help/datacollector/UserGuide/Apx-GrokPatterns/GrokPatterns_title.html](https://streamsets.com/documentation/datacollector/latest/help/datacollector/UserGuide/Apx-GrokPatterns/GrokPatterns_title.html)
+##### Hint: `"method= GET"` <-- with whitespace!
+
+`service=%{WORD:service} \| event=%{WORD:event} \| path=%{UNIXPATH:path} \| request_id=%{GREEDYDATA:request_id} \| remote_addr=%{IP:remote_addr} \| method= %{WORD:method} \| response_status=%{BASE10NUM:response_status}`
+
+ - Zipkin: download and build bugged src/
+```
+cd ./src/ui && bash docker_build.sh && docker push $USER_NAME/ui:logging
+cd ../post-py && bash docker_build.sh && docker push $USER_NAME/post:logging
+cd ../comment && bash docker_build.sh && docker push $USER_NAME/comment:logging
+```
+Tracing with Zipkin shows Post server IP address has misconfigured to `127.0.0.1:4567` instead of `10.0.1.3:5000`
+
+
 # Lecture 23, homework 17
 ## Common tasks:
  - reorganize `docker-compose.yml`, extract monitoring to `docker-compose-monitoring.yml`
