@@ -1,6 +1,27 @@
 # Torchun_microservices
 Torchun microservices repository
 
+# Lecture 27, homework 19
+## Common tasks:
+ - Create 2 VMs in cloud
+ - Install k8s with `kubeadm`
+ - Fix `calico` issue
+ - Add node to cluster
+##### Solution: as described in PDF
+
+## Starred tasks:
+ - Automate VM creation (Terraform) and k8s installation (Ansible)
+##### Solution: see related files
+##### Hints:
+ - No need to create instances with Terraform due to bare-metall install in real life. Skipped.
+ - Ansible dynamic inventory not used due to static IPs in real life. Static inventory used.
+##### Useful commands at master node:
+```
+kubectl get nodes
+kubectl describe node <node-name>
+kubectl apply -f <manifest_filename.yml>
+```
+
 # Lecture 25, homework 18
 ## Common tasks:
  - Setting up EFK
