@@ -1,6 +1,81 @@
 # Torchun_microservices
 Torchun microservices repository
 
+# Lecture 28, homework 20
+## Common tasks:
+ - Add labels and "dev" environment to deployments of reddit app
+ - Create services for k8s components interaction
+ - Create minikube cluster on local machine
+ - Create k8s cluster on Yandex.Cloud
+
+##### Solution: as described in PDF
+
+## Starred tasks:
+ - Create YC k8s cluster with Terraform
+##### Solution: see related files
+
+##### Useful commands at local console (laptop):
+```
+$ kubectl config get-contexts
+CURRENT   NAME              CLUSTER                               AUTHINFO                              NAMESPACE
+          minikube          minikube                              minikube                              default
+*         yc-test-cluster   yc-managed-k8s-catf8m3caegttggc65pb   yc-managed-k8s-catf8m3caegttggc65pb
+```
+```
+$ kubectl get nodes
+NAME                        STATUS   ROLES    AGE   VERSION
+cl1ai08tb32cpeuoe4t0-azix   Ready    <none>   20m   v1.19.7
+cl1ai08tb32cpeuoe4t0-ibyx   Ready    <none>   20m   v1.19.7
+```
+```
+$ kubectl apply -f dev-namespace.yml
+namespace/dev created
+
+$ kubectl apply -f . -n dev
+deployment.apps/comment created
+service/comment-db created
+service/comment created
+namespace/dev unchanged
+deployment.apps/mongo created
+service/mongodb created
+deployment.apps/post created
+service/post-db created
+service/post created
+deployment.apps/ui created
+service/ui created
+```
+```
+$ kubectl get nodes -o wide
+NAME                        STATUS   ROLES    AGE   VERSION   INTERNAL-IP   EXTERNAL-IP      OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
+cl1ai08tb32cpeuoe4t0-azix   Ready    <none>   21m   v1.19.7   10.129.0.12   84.252.138.147   Ubuntu 20.04.2 LTS   5.4.0-65-generic   docker://20.10.3
+cl1ai08tb32cpeuoe4t0-ibyx   Ready    <none>   21m   v1.19.7   10.129.0.34   84.252.143.217   Ubuntu 20.04.2 LTS   5.4.0-65-generic   docker://20.10.3
+
+$ kubectl get svc -A
+NAMESPACE     NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+default       kubernetes       ClusterIP   10.96.128.1     <none>        443/TCP          36m
+dev           comment          ClusterIP   10.96.139.232   <none>        9292/TCP         14m
+dev           comment-db       ClusterIP   10.96.129.199   <none>        27017/TCP        14m
+dev           mongodb          ClusterIP   10.96.192.74    <none>        27017/TCP        14m
+dev           post             ClusterIP   10.96.153.218   <none>        5000/TCP         14m
+dev           post-db          ClusterIP   10.96.216.47    <none>        27017/TCP        14m
+dev           ui               NodePort    10.96.224.150   <none>        9292:32255/TCP   14m
+kube-system   kube-dns         ClusterIP   10.96.128.2     <none>        53/UDP,53/TCP    36m
+kube-system   metrics-server   ClusterIP   10.96.253.176   <none>        443/TCP          36m
+
+$ kubectl get pods -n dev
+NAME                       READY   STATUS    RESTARTS   AGE
+comment-5bd9f9bcfc-bc252   1/1     Running   0          15m
+comment-5bd9f9bcfc-f45nm   1/1     Running   0          15m
+comment-5bd9f9bcfc-p9qtn   1/1     Running   0          15m
+mongo-6b9fcfd49f-mfk98     1/1     Running   0          15m
+post-595b67dd9f-chm79      1/1     Running   0          15m
+post-595b67dd9f-fzrfg      1/1     Running   0          15m
+post-595b67dd9f-qptqh      1/1     Running   0          15m
+ui-544875c677-2wjsg        1/1     Running   0          15m
+ui-544875c677-5zj6v        1/1     Running   0          15m
+ui-544875c677-wlq7p        1/1     Running   0          15m
+```
+
 # Lecture 27, homework 19
 ## Common tasks:
  - Create 2 VMs in cloud
