@@ -1,6 +1,14 @@
 # Torchun_microservices
 Torchun microservices repository
 
+# Lecture 30, homework 22
+## Common tasks:
+ - Helm charts
+ - gitlab @ k8s
+ - ci\cd @ gitlab @ k8s
+##### Solution: self-paced learning, PDFs useless :(
+
+
 # Lecture 29, homework 21
 ## Common tasks:
  - Add NetworkPolicy for Mongo service
