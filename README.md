@@ -1,6 +1,11 @@
 # Torchun_microservices
 Torchun microservices repository
 
+# Lecture 31, homework 23
+## Common tasks:
+ - Deploy Prometheus in k8s
+##### Solution: `helm install stable/prometheus`
+
 # Lecture 30, homework 22
 ## Common tasks:
  - Helm charts

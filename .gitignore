@@ -25,3 +25,6 @@ vault.key
 # docker-compose
 .env
 *.env
+
+# kubernetes
+kubernetes/Charts/prometheus/charts/kube-state-metrics/OWNERS
