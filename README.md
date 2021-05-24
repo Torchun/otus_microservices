@@ -1,6 +1,36 @@
 # Torchun_microservices
 Torchun microservices repository
 
+# Lecture 30, homework 22
+## Common tasks:
+ - Helm charts
+ - gitlab @ k8s
+ - ci\cd @ gitlab @ k8s
+##### Solution: self-paced learning, PDFs useless :(
+
+
+# Lecture 29, homework 21
+## Common tasks:
+ - Add NetworkPolicy for Mongo service
+ - Add Ingress for UI
+ - Add TLS for Ingress
+ - Add PersistentStorage for Mongo
+
+##### Solution: as described in PDF
+
+##### Useful commands at local console (laptop):
+```
+kubectl apply -f mongo-volume.yml -n dev
+kubectl apply -f mongo-claim.yml -n dev
+kubectl apply -f mongo-deployment.yml -n dev
+
+kubectl get pods -n dev | grep -i mongo
+
+kubectl delete -f mongo-deployment.yml -n dev
+kubectl delete -f mongo-claim.yml -n dev
+kubectl delete -f mongo-volume.yml -n dev
+```
+
 # Lecture 28, homework 20
 ## Common tasks:
  - Add labels and "dev" environment to deployments of reddit app
